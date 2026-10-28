@@ -1,0 +1,80 @@
+# 环境与密钥
+.DS_Store
+.env
+.env.*
+!.env.example
+*.env
+.envrc
+.venv
+venv
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+/lib/
+/lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 本地签名、证书和访问凭据（只发布空白配置模板）
+*.pem
+*.key
+*.p12
+*.pfx
+*.mobileprovision
+credentials.json
+service-account*.json
+service_account*.json
+
+# 测试与覆盖
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 数据与日志（不提交到 git）
+data/
+artifacts/
+log/
+logs/
+*.log
+*.log.*
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+.cache/
+tmp/
+temp/
+*.tmp
+
+# 实际运行产物，可能含原始文案、照片或请求信息
+tests/result.json
+tests/result_report.md
+
+# 设计文档可保留在 doc/，本地草稿可忽略
+# doc/design/draft*
+
+# Local Flutter SDK (the client source lives in flutter_client/lib)
+.tooling/

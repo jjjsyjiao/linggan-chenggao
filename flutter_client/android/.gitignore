@@ -1,0 +1,25 @@
+/.gradle
+/.kotlin/
+/.externalNativeBuild/
+/captures/
+/local.properties
+/build/
+/app/build/
+GeneratedPluginRegistrant.java
+.cxx/
+
+# Keep gradlew, gradlew.bat and gradle/wrapper/* for reproducible builds.
+*.apk
+*.aab
+*.apks
+
+# Remember to never publicly share your keystore.
+# See https://flutter.dev/to/reference-keystore
+key.properties
+key.properties.*
+!key.properties.example
+!key.properties.sample
+keystore.properties
+signing.properties
+**/*.keystore
+**/*.jks

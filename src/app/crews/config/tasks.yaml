@@ -1,0 +1,141 @@
+task_visual_analysis:
+  agent: xhs_visual_analyst
+  context: []
+  description: |
+    仅记录可见事实，不能从图片确认的食材或酱料标记不确定，使用“绿色酱汁/块状配菜/谷物”等客观称呼；不得推断制作方式、配方成分、味道口感、饱腹时长或身体瘦身机理。
+    你需要根据用户的意图，对一张图片进行深入的视觉分析。：
+    1）用户的原始创作意图 user_raw_intent（字符串）：
+       {idea_text}
+    2）图片的信息列表 images_info（包含 image_id、file_name），
+       JSON 形式展示如下（请仔细阅读并据此分析）：
+       {images_info}
+    本次真实图片已附加到多模态上下文，请直接观察图片的整体与细节，
+    并按照 XhsImageVisualAnalysis 的字段要求，输出结构化的视觉分析结果。
+    注意，如果加载图片失败，或者无法获取图片内容，则输出错误信息，不要编造结果
+    
+    **强调输出格式：**
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+    - 对于没有内容的字段，可以用合理的中文描述（如 "暂无可分析内容"），不要用形如 `"" ""` 的错误写法
+    - 尽量对每个字段给出充实、有信息量的中文描述
+  expected_output: |
+    一个能够被解析为 XhsImageVisualAnalysis 的结构化输出。
+    特别重要（避免解析失败）：
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+
+task_visual_analysis_summary:
+  agent: xhs_visual_analyst
+  description: |
+    你将获得所有图片的视觉分析结果，你需要总结所有图片的视觉分析结果，并生成一句话的整体的视觉分析报告总结，不要超过50个字。
+  expected_output: |
+    不输出多余内容，只输出一个一句话的整体的视觉分析报告总结。
+    注意，如果加载图片失败，或者无法获取图片内容，则输出错误信息，不要编造结果
+
+task_image_edit_plan:
+  agent: xhs_image_editor
+  context: []
+  description: |
+    你将获得一张图片的信息，你需要根据用户的意图，以及对图片的视觉分析，生成一份编辑 / P 图方案：
+    1）用户的原始创作意图 user_raw_intent（字符串）：
+       {idea_text}
+    2）图片的信息列表 images_info：
+       {images_info}
+    3）图片的视觉分析结果 visual_analysis：
+       {visual_analysis}
+    本次真实图片已附加到多模态上下文，请直接观察图片的整体与细节，并根据视觉分析结果，给出针对该图片的具体编辑 / P 图方案。
+    请严格按照 XhsImageEditPlan 的字段要求。
+    如果某些方向不需要编辑，则对应字段直接输出“不需要编辑”。
+    注意，如果加载图片失败，或者无法获取图片内容，则输出错误信息，不要编造结果
+
+    **⚠️ 输出格式要求（最重要，必须严格遵守）：**
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+    
+  expected_output: |
+    一个能够被解析为 XhsImageEditPlan 的结构化输出。
+    特别重要（避免解析失败）：
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+
+task_image_edit_plan_summary:
+  agent: xhs_image_editor
+  description: |
+    你将获得所有图片的编辑方案，你需要总结所有图片的编辑方案，并生成一句话的整体的编辑方案总结，不要超过50个字。
+  expected_output: |
+    不输出多余内容，只输出一个一句话的整体的编辑方案总结。
+    注意，如果加载图片失败，或者无法获取图片内容，则输出错误信息，不要编造结果
+
+task_content_strategy:
+  agent: xhs_growth_strategist
+  context: []
+  description: |
+    用户未明确提供体验资料时只采用观察或计划口吻，不得把图片转写成用户已发生的味觉、口感、手作过程或饱腹时长；不得生成3-2-1等饮食配比公式或减脂功效承诺。不能确认的食材、制作方式、具体配方、酱料成分应明确写不确定，或使用“绿色酱汁/块状配菜/谷物”等客观称呼，禁止将视觉推测写成确定事实。
+    策略必须依据图片可见内容和用户明确意图，不得编造亲历效果、赠品抽奖、优惠承诺、价格、店名地址或健康定量建议；信息不足时使用中性表达。互动策略只能邀请分享或提问，不能假定用户愿意提供赠品。
+    你将基于用户创作意图、多张图片的视觉分析报告以及编辑方案概要，输出一份可直接指导爆款笔记创作的内容策略简报。
+    
+    1）用户的原始创作意图 user_raw_intent（字符串）：
+       {idea_text}
+    
+    2）多张图片的视觉分析报告 visual_report（JSON格式）：
+       {visual_report}
+    
+    3）图片编辑方案概要 edit_report（JSON格式）：
+       {edit_report}
+    
+    请仔细阅读上述信息，基于用户意图和图片分析结果，制定符合小红书平台增长逻辑的内容策略简报。
+    特别重要：
+    - 必须严格基于用户提供的创作意图和图片分析结果，不得自行编造或使用示例数据。
+    - 如果用户意图是"地中海饮食减脂"，则策略应围绕地中海饮食相关内容，而不是其他主题（如咖啡机）。
+    - 所有策略建议必须与用户意图和图片内容高度相关。
+    - 请完整阅读visual_report和edit_report中的内容，确保策略与图片实际内容一致。
+    - 使用 IntermediateTool 工具保存中间思考过程
+    
+    **强调输出格式：**
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+  expected_output: |
+    一个完整的 XhsContentStrategyBrief 结构化输出。
+    特别重要（避免解析失败）：
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+
+task_copywriting:
+  agent: xhs_content_writer
+  context:
+    - task_content_strategy
+  description: |
+    用户未明确提供体验资料时只采用观察或计划口吻，不得把图片转写成用户已发生的味觉、口感、手作过程或饱腹时长；不得生成3-2-1等饮食配比公式或减脂功效承诺。不能确认的食材、制作方式、具体配方、酱料成分应明确写不确定，或使用“绿色酱汁/块状配菜/谷物”等客观称呼，禁止将视觉推测写成确定事实。
+    你将基于内容策略简报、视觉分析报告与编辑方案，为目标人群撰写一篇完整的小红书笔记文案，
+    1）用户的原始创作意图 user_raw_intent（字符串）：
+       {idea_text}
+    
+    2）多张图片的视觉分析报告 visual_report（JSON格式）：
+       {visual_report}
+
+    输出带 Emoji 的标题、正文，以及推荐的图片展示顺序。
+    标题必须不超过20个字符（含Emoji和标点），正文建议900字以内，并为话题标签留出空间。
+    不得捏造用户未提供的亲身经历、减重数字、使用天数、消费价格、店名、地址或亲历效果；只依据图片可见内容和用户意图，信息不足时使用中性表达，不作功效承诺。不得编造赠品抽奖、优惠承诺，也不得给出用户未提供的用油克数、热量、营养含量等健康定量建议。
+    使用 IntermediateTool 工具保存中间思考过程
+    
+    **强调输出格式：**
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+  expected_output: |
+    一个完整的 XhsCopywritingOutput 结构化输出，包含标题、正文与图片顺序。
+    特别重要（避免解析失败）：
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+
+task_seo_optimization:
+  agent: xhs_seo_expert
+  context:
+    - task_content_strategy
+    - task_copywriting
+  description: |
+    用户未明确提供体验资料时只采用观察或计划口吻，不得把图片转写成用户已发生的味觉、口感、手作过程或饱腹时长；不得生成3-2-1等饮食配比公式或减脂功效承诺。不能确认的食材、制作方式、具体配方、酱料成分应明确写不确定，或使用“绿色酱汁/块状配菜/谷物”等客观称呼，禁止将视觉推测写成确定事实。
+    你将基于内容策略简报与原始文案，对标题、正文、图片顺序与标签进行搜索优化，
+    在不损害阅读体验和情绪价值的前提下，自然融入长尾关键词。
+    optimized_title必须为1～20个字符（含Emoji和标点），optimized_content必须为1～1000个字符，优先控制在900字以内。
+    必须删除用户未提供的减重数字、体验天数、消费价格、店名、地址、亲历效果及治疗或功效承诺；只能依据图片可见内容和用户意图，信息不足用中性表达，不得为了吸引点击编造事实。删除未获用户确认的赠品抽奖、优惠承诺和健康定量建议。
+    使用 IntermediateTool 工具保存中间思考过程
+    
+    **强调输出格式：**
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+  expected_output: |
+    一个完整的 XhsSEOOptimizedNote 结构化输出。
+    特别重要（避免解析失败）：
+    - 当输出Final Answer时，Final Answer:后面必须是纯JSON，不要使用 ```json 或 ``` 或 ` 代码块标记，不要有任何包装
+

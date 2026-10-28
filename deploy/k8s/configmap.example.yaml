@@ -1,0 +1,9 @@
+# 非敏感配置，复制为 configmap 使用
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-app-config
+data:
+  APP_ENV: "production"
+  APP_LOG_LEVEL: "INFO"
+  APP_PORT: "8000"
