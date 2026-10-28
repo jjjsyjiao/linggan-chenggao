@@ -2,6 +2,16 @@
 
 选择相册图片，输入创作要求，生成标题、正文和话题；在预览页编辑后，携图打开小红书并手动粘贴文案、确认发布。支持 Android / iOS，只选择图片，不包含视频。
 
+## Android 真机演示
+
+以下为 Android 真机上不同操作阶段的界面截图，点击图片查看大图。
+
+| 选图与排序 | 笔记预览与编辑 | 小红书发布器 |
+| :---: | :---: | :---: |
+| <a href="doc/images/android-image-selection.png"><img src="doc/images/android-image-selection.png" width="260" alt="Android 真机选图页面，支持单张和批量添加、预览及调整图片顺序"></a> | <a href="doc/images/android-note-preview.png"><img src="doc/images/android-note-preview.png" width="260" alt="Android 真机笔记预览页面，可编辑标题正文、复制文案并分享图片"></a> | <a href="doc/images/xiaohongshu-publisher.png"><img src="doc/images/xiaohongshu-publisher.png" width="260" alt="小红书发布器中的图片和粘贴文案，由用户手动确认发布"></a> |
+
+生成文案是可编辑草稿，事实仍需核对。图片通过分享携带到小红书，文案由用户手动粘贴，公开发布由用户最终确认。
+
 **第一次使用，按下面的顺序：准备环境 → 跑通免费演示 → 配置真实 AI → 运行手机 App。** 不需要先学习 CrewAI，也不需要先安装数据库、Redis 或 Docker。
 
 ## 先了解需要运行什么
